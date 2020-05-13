@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="or.yonsai.mapper.BoardMapper">			<!-- interface 불러오기 -->
+
+	<select id="getList" resultType="or.yonsai.domain.BoardVO">		<!-- id = 메서드 , r.T =리턴타입 (inerface와 동일하게) -->
+		<![CDATA[
+		select * from tbl_board where bno > 0
+		]]>
+	</select>
+	
+	<sql id="criteria">
+		<trim prefix="where (" suffix=")" prefixOverrides="or">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="or">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like concat('%',#{keyword},'%')
+						</when>
+						<when test="type == 'C'.toString()">
+							content like concat('%',#{keyword},'%')
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like concat('%',#{keyword},'%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="getListWithPaging" resultType="or.yonsai.domain.BoardVO">
+			SELECT * FROM tbl_board
+			<include refid ="criteria"></include>
+			ORDER BY bno DESC
+			LIMIT #{offsetNum}, #{amount}
+	</select>
+
+	<insert id="insert">
+		insert into sample_db.tbl_board (title,content,writer)
+		values (#{title}, #{content}, #{writer})
+	</insert>
+
+	<insert id="insertSelectKey">
+
+		<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+			select auto_increment
+			from information_schema.tables
+			where TABLE_SCHEMA = "sample_db"
+			and TABLE_NAME = "tbl_board"
+		</selectKey>
+
+		insert into sample_db.tbl_board (bno, title, content, writer)
+		values (#{bno}, #{title}, #{content}, #{writer})
+	</insert>
+
+	<select id="read" resultType="or.yonsai.domain.BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>
+
+	<delete id="delete">
+		delete from tbl_board where bno = #{bno}
+	</delete>
+
+	<update id="update">
+		UPDATE sample_db.tbl_board
+		SET title=#{title}, 
+		content=#{content}, 
+		writer=#{writer}
+		WHERE bno= #{bno}
+	</update>
+	
+	<select id="getTotalCount" resultType="int">
+	select count(*) from tbl_board
+	<include refid="criteria"></include>
+	</select>
+	
+	<update id="updateReplyCnt">
+		update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
+	</update>
+
+</mapper>
