@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
 import or.yonsai.domain.BoardVO;
 import or.yonsai.domain.Criteria;
 import or.yonsai.domain.PageDTO;
@@ -22,7 +21,7 @@ import or.yonsai.service.BoardService;
 @RequestMapping("/board/*")
 @AllArgsConstructor
 public class BoardController {
-
+	
 	private BoardService service;
 	
 //	@GetMapping("/list")

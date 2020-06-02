@@ -3,7 +3,7 @@ package or.yonsai.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+//import org.apache.ibatis.annotations.Select;
 
 import or.yonsai.domain.BoardVO;
 import or.yonsai.domain.Criteria;
