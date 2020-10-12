@@ -14,7 +14,7 @@
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:mariadb://localhost:3306/sample_db"></property>
 		<property name="username" value="sample_ex"></property>
-		<property name="password" value="gustmddla426"></property>
+		<property name="password" value="***"></property>
 	</bean>
 	
 	<!-- HikariCP configuration -->
